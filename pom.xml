@@ -10,10 +10,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>8.11.2</vaadin.version>
+        <vaadin.version>8.11.3</vaadin.version>
     </properties>
 
     <repositories>
+
+
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
@@ -47,6 +49,7 @@
             <artifactId>vaadin-server</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.vaadin</groupId>

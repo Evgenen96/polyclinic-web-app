@@ -17,7 +17,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public void save(Recipe recipe) {
         String sqlQuery = "" +
-                "INSERT INTO recipes(description, patient_id, doctor_id, creation_date, validation, priority_id) " +
+                "INSERT INTO recipes(description, patient_id, doctor_id, creation_date, validity, priority_id) " +
                 "VALUES(?,?,?,?,?,?)";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
@@ -178,10 +178,10 @@ public class RecipeDaoImpl implements RecipeDao {
                 "FROM recipes r" +
                 "INNER JOIN patients p USING (patient_id)" +
                 "INNER JOIN doctors d USING (doctor_id)" +
-                "WHERE description = ? ";
+                "WHERE description IS LIKE ? ";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setString(1, description);
+            preparedStmt.setString(1, "%" + description + "%");
             ResultSet rs = preparedStmt.executeQuery(sqlQuery);
             while (rs.next()) {
                 list.add(getRecipe(rs));

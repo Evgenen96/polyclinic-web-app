@@ -4,11 +4,15 @@ import java.util.Objects;
 
 public class Patient {
 
-    private Long id ;
+    private Long id;
     private String firstName;
     private String surname;
     private String patronymic;
     private String phoneNumber;
+
+    public Patient() {
+
+    }
 
     public Patient(String firstName, String surname, String patronymic, String phoneNumber) {
         this.firstName = firstName;

@@ -10,6 +10,9 @@ public class Doctor {
     private String patronymic;
     private String specialization;
 
+    public Doctor() {
+    }
+
     public Doctor(String firstName, String surname, String patronymic, String specialization) {
         this.firstName = firstName;
         this.surname = surname;

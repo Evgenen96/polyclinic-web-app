@@ -13,6 +13,13 @@ public class Recipe {
     private Integer validity;
     private RecipePriority priority;
 
+    public Recipe() {
+        doctor = new Doctor();
+        patient = new Patient();
+        priority = RecipePriority.NORMAL;
+        creationDate = new Date();
+    }
+
     public Recipe(String description, Patient patient,
                   Doctor doctor, Date creationDate,
                   Integer validity, RecipePriority priority) {

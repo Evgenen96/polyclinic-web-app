@@ -17,5 +17,10 @@ public enum RecipePriority {
     /**
      * The immediately priority
      */
-    STATIM
+    STATIM;
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }
