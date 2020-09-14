@@ -9,7 +9,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
-
+/**
+ * Form for editing or adding patients
+ */
 public class PatientForm extends AbstractUtilForm<Patient> implements View {
     private TextField firstNameText;
     private TextField surnameText;
@@ -25,11 +27,13 @@ public class PatientForm extends AbstractUtilForm<Patient> implements View {
         setMargin(true);
         setSpacing(true);
 
+        //initializing fields
         surnameText = createTextField("Фамилия:", 255);
         firstNameText = createTextField("Имя:", 255);
         patronymicText = createTextField("Отчество:", 255);
         phoneNumberText = createTextField("Телефон:", 15);
 
+        //binders + validation
         setupBinders();
 
         addComponentAsFirst(phoneNumberText);

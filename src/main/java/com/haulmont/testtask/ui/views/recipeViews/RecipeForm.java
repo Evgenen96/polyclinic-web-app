@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * Form for editing or adding recipes
+ */
 public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
 
     private TextField descriptionText;
@@ -40,6 +43,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         setMargin(true);
         setSpacing(true);
 
+        //initializing fields
         descriptionText = createTextField("Имя:", 255);
 
         patientCB = new ComboBox<>("Пациент");
@@ -69,6 +73,8 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         priorityCB.setWidth("100%");
         priorityCB.setItems(RecipePriority.values());
 
+
+        //binders + validation
         setupBinders();
 
 

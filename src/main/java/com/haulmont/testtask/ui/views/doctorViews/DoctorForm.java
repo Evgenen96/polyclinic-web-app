@@ -8,7 +8,9 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
 
-
+/**
+ * Form for editing or adding doctors
+ */
 public class DoctorForm extends AbstractUtilForm<Doctor> implements View {
     private TextField firstNameText;
     private TextField surnameText;
@@ -24,15 +26,14 @@ public class DoctorForm extends AbstractUtilForm<Doctor> implements View {
         setMargin(true);
         setSpacing(true);
 
+        //initializing fields
         surnameText = createTextField("Фамилия:", 255);
         firstNameText = createTextField("Имя:", 255);
         patronymicText = createTextField("Отчество:", 255);
         specializationText = createTextField("Специализация:", 255);
 
-        binder.forField(firstNameText).bind(Doctor::getFirstName, Doctor::setFirstName);
-        binder.forField(surnameText).bind(Doctor::getSurname, Doctor::setSurname);
-        binder.forField(patronymicText).bind(Doctor::getPatronymic, Doctor::setPatronymic);
-        binder.forField(specializationText).bind(Doctor::getSpecialization, Doctor::setSpecialization);
+        //binders + validation
+        setupBinders();
 
         addComponentAsFirst(specializationText);
         addComponentAsFirst(patronymicText);

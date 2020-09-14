@@ -7,6 +7,9 @@ import com.haulmont.testtask.ui.views.MainView;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
 
+/**
+ * DoctorView class represents a grid of doctors data
+ */
 public class DoctorView extends VerticalLayout implements View {
 
     private static DoctorService doctorService;
@@ -20,15 +23,19 @@ public class DoctorView extends VerticalLayout implements View {
 
         doctorService = MainView.getDoctorService();
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(false);
-
         setGrid();
         updateGrid();
-        layout.addComponent(doctorGrid);
-        layout.addComponent(createCrudBtLayout());
-        addComponent(layout);
 
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+        buttonsLayout.addComponents(addBt, editBt, delBt);
+        setCrudButtons();
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(false);
+        layout.addComponent(doctorGrid);
+        layout.addComponent(buttonsLayout);
+
+        addComponent(layout);
         setSpacing(false);
     }
 
@@ -53,11 +60,9 @@ public class DoctorView extends VerticalLayout implements View {
         doctorGrid.setItems(doctorService.getAll());
     }
 
-    private HorizontalLayout createCrudBtLayout() {
-        HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private void setCrudButtons() {
         editBt.setEnabled(false);
         delBt.setEnabled(false);
-        buttonsLayout.addComponents(addBt, editBt, delBt, statBt);
         addBt.addClickListener(click -> {
             Window doctorWindow = new DoctorFormWindow(Operations.add, null);
             doctorWindow.addCloseListener(e -> {
@@ -82,7 +87,6 @@ public class DoctorView extends VerticalLayout implements View {
             Window doctorWindow = new DoctorStatsWindow();
             getUI().addWindow(doctorWindow);
         });
-       return buttonsLayout;
     }
 
     public static DoctorService getDoctorService() {

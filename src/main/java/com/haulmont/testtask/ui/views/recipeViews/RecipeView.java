@@ -13,6 +13,9 @@ import com.vaadin.ui.*;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * RecipeView class represents a grid of recipes data
+ */
 public class RecipeView extends VerticalLayout implements View {
 
     private static RecipeService recipeService;
@@ -20,9 +23,9 @@ public class RecipeView extends VerticalLayout implements View {
     private final Button editBt = new Button("Редактировать");
     private final Button addBt = new Button("Добавить");
     private final Button delBt = new Button("Удалить");
-    private final TextField descriptionText = new TextField("Описание");
-    private final ComboBox<Patient> patientCB = new ComboBox<>("Пациент");
-    private final ComboBox<RecipePriority> priorityCB = new ComboBox<>("Приоритет");
+    private final TextField descriptionText = new TextField();
+    private final ComboBox<Patient> patientCB = new ComboBox<>();
+    private final ComboBox<RecipePriority> priorityCB = new ComboBox<>();
     private final Button applyFilterBt = new Button("Применить");
     private final Button clearFilterBt = new Button("Убрать");
 
@@ -31,12 +34,14 @@ public class RecipeView extends VerticalLayout implements View {
         recipeService = MainView.getRecipeService();
 
         Panel filterPanel = new Panel();
-        HorizontalLayout filtersLayout = new HorizontalLayout();
-        filtersLayout.setMargin(false);
-        filtersLayout.setSpacing(true);
-        filtersLayout.addComponents(descriptionText, patientCB, priorityCB, applyFilterBt, clearFilterBt);
+        filterPanel.setCaption("Фильтры");
+        HorizontalLayout filterLayout = new HorizontalLayout();
+        filterLayout.setMargin(true);
+        filterLayout.setSpacing(true);
+        filterLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        filterLayout.addComponents(descriptionText, patientCB, priorityCB, applyFilterBt, clearFilterBt);
         setFilters();
-        filterPanel.setContent(filtersLayout);
+        filterPanel.setContent(filterLayout);
 
         setGrid();
         updateGrid();
@@ -141,9 +146,12 @@ public class RecipeView extends VerticalLayout implements View {
 
     private void setFilters() {
         //setting up filter fields
+        descriptionText.setWidth("250px");
+        descriptionText.setPlaceholder("Введите описание");
+
         patientCB.setTextInputAllowed(true);
         patientCB.setPlaceholder("Выберите пациента");
-        patientCB.setWidth("100%");
+        patientCB.setWidth("250px");
         populatePatientsCB(patientCB);
         patientCB.addFocusListener(focusEvent -> {
             populatePatientsCB(patientCB);
@@ -151,7 +159,7 @@ public class RecipeView extends VerticalLayout implements View {
 
         priorityCB.setTextInputAllowed(false);
         priorityCB.setPlaceholder("Выберите приоритет");
-        priorityCB.setWidth("100%");
+        priorityCB.setWidth("250px");
         priorityCB.setItems(RecipePriority.values());
 
         //filter fields logic

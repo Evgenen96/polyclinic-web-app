@@ -93,7 +93,6 @@ public class DoctorDaoImpl implements DoctorDao {
     }
 
     public static Doctor getDoctor(ResultSet rs) throws SQLException {
-
         return new Doctor(
                 rs.getLong("doctor_id"),
                 rs.getString("first_name"),

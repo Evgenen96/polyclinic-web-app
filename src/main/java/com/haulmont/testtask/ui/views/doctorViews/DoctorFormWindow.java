@@ -5,7 +5,11 @@ import com.haulmont.testtask.dbService.entities.Doctor;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.vaadin.ui.Window;
 
+/**
+ * Window for DoctorForm class
+ */
 public class DoctorFormWindow extends Window {
+
     private DoctorForm doctorForm;
 
     public DoctorFormWindow(Operations operation, Doctor doctor) {

@@ -29,6 +29,7 @@ public class MainView extends VerticalLayout implements View {
         headerLayout.setHeight("50px");
         headerLayout.setMargin(true);
         headerLayout.setSpacing(true);
+
         Label label = new Label("Добро пожаловать в поликлинику");
         headerLayout.addComponent(label);
         headerLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);

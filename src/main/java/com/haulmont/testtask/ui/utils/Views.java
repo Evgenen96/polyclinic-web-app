@@ -1,5 +1,8 @@
 package com.haulmont.testtask.ui.utils;
 
+/**
+ * Views enum stores views's names that navigator uses to identify them
+ */
 public enum Views {
     Doctors, Patients, Recipes;
 

@@ -5,6 +5,9 @@ import com.haulmont.testtask.dbService.entities.Recipe;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.vaadin.ui.Window;
 
+/**
+ * Window for RecipeForm class
+ */
 public class RecipeFormWindow extends Window {
     private RecipeForm recipeForm;
 

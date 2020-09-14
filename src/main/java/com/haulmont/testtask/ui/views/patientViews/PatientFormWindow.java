@@ -5,6 +5,9 @@ import com.haulmont.testtask.dbService.entities.Patient;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.vaadin.ui.Window;
 
+/**
+ * Window for PatientForm class
+ */
 public class PatientFormWindow extends Window {
     private PatientForm patientForm;
 
