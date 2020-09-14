@@ -9,8 +9,8 @@ import com.haulmont.testtask.dbService.entities.Recipe;
 import com.haulmont.testtask.dbService.entities.RecipePriority;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 public class RecipeDaoImpl implements RecipeDao {
 
@@ -71,8 +71,8 @@ public class RecipeDaoImpl implements RecipeDao {
                 "d.doctor_id, d.first_name as d_first_name," +
                 "d.surname as d_surname, d.patronymic as d_patronymic, d.specialization " +
                 "FROM recipes r" +
-                "INNER JOIN patients p USING (patient_id)" +
-                "INNER JOIN doctors d USING (doctor_id)";
+                "INNER JOIN patients p USING (patient_id) " +
+                "INNER JOIN doctors d USING (doctor_id) ";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sqlQuery);
@@ -153,19 +153,26 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public long getCountOfRecipesByDoctor(Doctor doctor) {
-        String sqlQuery = "count(*) FROM recipes WHERE doctor = ?";
+    public Map<Doctor, Long> getCountOfRecipesByDoctor() {
+        String sqlQuery = "SELECT * " +
+                "FROM (SELECT doctor_id, count(*) AS amount FROM recipes GROUP BY doctor_id)" +
+                "INNER JOIN doctors USING(doctor_id)";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setLong(1, doctor.getId());
             ResultSet rs = preparedStmt.executeQuery();
-            rs.next();
-            return rs.getLong(1);
+            Map<Doctor, Long> items = new LinkedHashMap<>();
+            while (rs.next()) {
+                Doctor doctor = DoctorDaoImpl.getDoctor(rs);
+                Long amount = rs.getLong("amount");
+                items.put(doctor, amount);
+            }
+            return items;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return null;
     }
+
 
     @Override
     public List<Recipe> filterByDescription(String description) {
@@ -175,14 +182,14 @@ public class RecipeDaoImpl implements RecipeDao {
                 "p.surname as p_surname, p.patronymic as p_patronymic, p.phone_number, " +
                 "doctor_id, d.first_name as d_first_name," +
                 "d.surname as d_surname, d.patronymic as d_patronymic, d.specialization " +
-                "FROM recipes r" +
-                "INNER JOIN patients p USING (patient_id)" +
-                "INNER JOIN doctors d USING (doctor_id)" +
-                "WHERE description IS LIKE ? ";
+                "FROM recipes r " +
+                "INNER JOIN patients p USING (patient_id) " +
+                "INNER JOIN doctors d USING (doctor_id) " +
+                "WHERE LOWER(description) LIKE LOWER('%' + ? + '%') ";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setString(1, "%" + description + "%");
-            ResultSet rs = preparedStmt.executeQuery(sqlQuery);
+            preparedStmt.setString(1, description);
+            ResultSet rs = preparedStmt.executeQuery();
             while (rs.next()) {
                 list.add(getRecipe(rs));
             }
@@ -197,18 +204,18 @@ public class RecipeDaoImpl implements RecipeDao {
     public List<Recipe> filterByPatientName(Patient patient) {
         List<Recipe> list = new ArrayList<>();
         String sqlQuery = "SELECT recipe_id, description, creation_date, validity, priority_id , " +
-                "patient_id, p.first_name as p_first_name, " +
+                "p.patient_id, p.first_name as p_first_name, " +
                 "p.surname as p_surname, p.patronymic as p_patronymic, p.phone_number, " +
-                "doctor_id, d.first_name as d_first_name," +
+                "d.doctor_id, d.first_name as d_first_name," +
                 "d.surname as d_surname, d.patronymic as d_patronymic, d.specialization " +
-                "FROM recipes r" +
-                "INNER JOIN patients p USING (patient_id)" +
-                "INNER JOIN doctors d USING (doctor_id)" +
-                "WHERE patient_id = ? ";
+                "FROM recipes r " +
+                "INNER JOIN patients p USING (patient_id) " +
+                "INNER JOIN doctors d USING (doctor_id) " +
+                "WHERE r.patient_id = ?";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
             preparedStmt.setLong(1, patient.getId());
-            ResultSet rs = preparedStmt.executeQuery(sqlQuery);
+            ResultSet rs = preparedStmt.executeQuery();
             while (rs.next()) {
                 list.add(getRecipe(rs));
             }
@@ -227,14 +234,14 @@ public class RecipeDaoImpl implements RecipeDao {
                 "p.surname as p_surname, p.patronymic as p_patronymic, p.phone_number, " +
                 "d.doctor_id, d.first_name as d_first_name," +
                 "d.surname as d_surname, d.patronymic as d_patronymic, d.specialization " +
-                "FROM recipes r" +
-                "INNER JOIN patients p USING (patient_id)" +
-                "INNER JOIN doctors d USING (doctor_id)" +
-                "WHERE priority_id = ? ";
+                "FROM recipes r " +
+                "INNER JOIN patients p USING (patient_id) " +
+                "INNER JOIN doctors d USING (doctor_id) " +
+                "WHERE priority_id = ?;";
         try (Connection connection = DBServiceImpl.getHSQLConnection();
              PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
             preparedStmt.setInt(1, priority.ordinal());
-            ResultSet rs = preparedStmt.executeQuery(sqlQuery);
+            ResultSet rs = preparedStmt.executeQuery();
             while (rs.next()) {
                 list.add(getRecipe(rs));
             }

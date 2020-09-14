@@ -25,7 +25,7 @@ public class PatientView extends VerticalLayout implements View {
         setGrid();
         updateGrid();
         layout.addComponent(patientGrid);
-        layout.addComponent(createButtonsLayout());
+        layout.addComponent(createCrudBtLayout());
         addComponent(layout);
 
         setSpacing(false);
@@ -52,14 +52,14 @@ public class PatientView extends VerticalLayout implements View {
         patientGrid.setItems(patientService.getAll());
     }
 
-    private HorizontalLayout createButtonsLayout() {
+    private HorizontalLayout createCrudBtLayout() {
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         editBt.setEnabled(false);
         delBt.setEnabled(false);
         buttonsLayout.addComponents(addBt, editBt, delBt);
         addBt.addClickListener(click -> {
             Window patientWindow = new PatientFormWindow(Operations.add, new Patient());
-            patientWindow.addCloseListener(e -> {
+            patientWindow.addCloseListener(closeEvent -> {
                 updateGrid();
             });
             getUI().addWindow(patientWindow);
@@ -67,7 +67,7 @@ public class PatientView extends VerticalLayout implements View {
         editBt.addClickListener(click -> {
             Patient patient = patientGrid.asSingleSelect().getValue();
             Window patientWindow = new PatientFormWindow(Operations.edit, patient);
-            patientWindow.addCloseListener(e -> {
+            patientWindow.addCloseListener(closeEvent -> {
                 updateGrid();
             });
             getUI().addWindow(patientWindow);

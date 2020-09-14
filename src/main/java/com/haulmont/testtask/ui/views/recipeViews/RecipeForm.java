@@ -43,16 +43,11 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         descriptionText = createTextField("Имя:", 255);
 
         patientCB = new ComboBox<>("Пациент");
-        patientCB.setTextInputAllowed(false);
         patientCB.setPlaceholder("Выберите пациента");
         patientCB.setWidth("100%");
-        List<Patient> patients = PatientView.getPatientService().getAll();
-        patientCB.setItems(patients);
-        patientCB.setItemCaptionGenerator(patient ->
-                patient.getId() + " " + patient.getSurname() + " " + patient.getFirstName());
+        RecipeView.populatePatientsCB(patientCB);
 
         doctorCB = new ComboBox<>("Доктор");
-        doctorCB.setTextInputAllowed(false);
         doctorCB.setPlaceholder("Выберите доктора");
         doctorCB.setWidth("100%");
         List<Doctor> doctors = DoctorView.getDoctorService().getAll();

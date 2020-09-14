@@ -6,10 +6,11 @@ import com.haulmont.testtask.dbService.entities.Recipe;
 import com.haulmont.testtask.dbService.entities.RecipePriority;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RecipeService extends Service<Recipe> {
 
-    long getCountOfRecipesByDoctor(Doctor doctor);
+    Map<Doctor,Long> getCountOfRecipesByDoctor();
 
     List<Recipe> filterByDescription(String description);
 

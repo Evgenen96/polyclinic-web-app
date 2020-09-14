@@ -26,7 +26,7 @@ public class DoctorView extends VerticalLayout implements View {
         setGrid();
         updateGrid();
         layout.addComponent(doctorGrid);
-        layout.addComponent(createButtonsLayout());
+        layout.addComponent(createCrudBtLayout());
         addComponent(layout);
 
         setSpacing(false);
@@ -53,7 +53,7 @@ public class DoctorView extends VerticalLayout implements View {
         doctorGrid.setItems(doctorService.getAll());
     }
 
-    private HorizontalLayout createButtonsLayout() {
+    private HorizontalLayout createCrudBtLayout() {
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         editBt.setEnabled(false);
         delBt.setEnabled(false);
@@ -77,6 +77,10 @@ public class DoctorView extends VerticalLayout implements View {
             Doctor doctor = doctorGrid.asSingleSelect().getValue();
             doctorService.remove(doctor);
             updateGrid();
+        });
+        statBt.addClickListener(click ->{
+            Window doctorWindow = new DoctorStatsWindow();
+            getUI().addWindow(doctorWindow);
         });
        return buttonsLayout;
     }

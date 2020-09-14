@@ -95,7 +95,7 @@ public class PatientDaoImpl implements PatientDao {
         }
     }
 
-    private Patient getPatient(ResultSet rs) throws SQLException {
+    public static Patient getPatient(ResultSet rs) throws SQLException {
         return new Patient(
                 rs.getLong("patient_id"),
                 rs.getString("first_name"),

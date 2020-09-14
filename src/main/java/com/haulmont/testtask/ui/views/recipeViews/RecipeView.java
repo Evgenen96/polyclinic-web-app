@@ -1,11 +1,17 @@
 package com.haulmont.testtask.ui.views.recipeViews;
 
+import com.haulmont.testtask.dbService.entities.Patient;
 import com.haulmont.testtask.dbService.entities.Recipe;
+import com.haulmont.testtask.dbService.entities.RecipePriority;
 import com.haulmont.testtask.dbService.services.base.RecipeService;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.MainView;
+import com.haulmont.testtask.ui.views.patientViews.PatientView;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
+
+import java.util.List;
+import java.util.Objects;
 
 public class RecipeView extends VerticalLayout implements View {
 
@@ -14,32 +20,51 @@ public class RecipeView extends VerticalLayout implements View {
     private final Button editBt = new Button("Редактировать");
     private final Button addBt = new Button("Добавить");
     private final Button delBt = new Button("Удалить");
+    private final TextField descriptionText = new TextField("Описание");
+    private final ComboBox<Patient> patientCB = new ComboBox<>("Пациент");
+    private final ComboBox<RecipePriority> priorityCB = new ComboBox<>("Приоритет");
+    private final Button applyFilterBt = new Button("Применить");
+    private final Button clearFilterBt = new Button("Убрать");
 
     public RecipeView() {
 
         recipeService = MainView.getRecipeService();
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(false);
+        Panel filterPanel = new Panel();
+        HorizontalLayout filtersLayout = new HorizontalLayout();
+        filtersLayout.setMargin(false);
+        filtersLayout.setSpacing(true);
+        filtersLayout.addComponents(descriptionText, patientCB, priorityCB, applyFilterBt, clearFilterBt);
+        setFilters();
+        filterPanel.setContent(filtersLayout);
 
         setGrid();
         updateGrid();
-        layout.addComponent(recipeGrid);
-        layout.addComponent(createButtonsLayout());
-        addComponent(layout);
 
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+        buttonsLayout.addComponents(addBt, editBt, delBt);
+        setCrudButtons();
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(false);
+        layout.addComponent(filterPanel);
+        layout.addComponent(recipeGrid);
+        layout.addComponent(buttonsLayout);
+
+        addComponent(layout);
         setSpacing(false);
     }
+
 
     private void setGrid() {
         recipeGrid.addColumn(Recipe::getDescription).setCaption("Описание");
         recipeGrid.addColumn(Recipe -> {
-            return Recipe.getPatient().getFirstName() + " " +
-                    Recipe.getPatient().getSurname();
+            return Recipe.getPatient().getSurname() + " " +
+                    Recipe.getPatient().getFirstName();
         }).setCaption("Пациент");
         recipeGrid.addColumn(Recipe -> {
-            return Recipe.getDoctor().getFirstName() + " " +
-                    Recipe.getDoctor().getSurname();
+            return Recipe.getDoctor().getSurname() + " " +
+                    Recipe.getDoctor().getFirstName();
         }).setCaption("Доктор");
         recipeGrid.addColumn(Recipe::getCreationDate).setCaption("Дата выписки");
         recipeGrid.addColumn(Recipe -> {
@@ -49,7 +74,7 @@ public class RecipeView extends VerticalLayout implements View {
                 days = " дней";
             } else if (validity % 10 > 1 && validity % 10 < 5) {
                 days = " дня";
-            } else if (validity % 10 == 1){
+            } else if (validity % 10 == 1) {
                 days = " день";
             } else {
                 days = " дней";
@@ -70,17 +95,31 @@ public class RecipeView extends VerticalLayout implements View {
     }
 
     private void updateGrid() {
-        recipeGrid.setItems(recipeService.getAll());
+        if (descriptionText.isEnabled()) {
+            populateGrid(recipeService.filterByDescription(descriptionText.getValue()));
+            return;
+        }
+        if (patientCB.isEnabled()) {
+            populateGrid(recipeService.filterByPatient(patientCB.getValue()));
+            return;
+        }
+        if (priorityCB.isEnabled()) {
+            populateGrid(recipeService.filterByPriority(priorityCB.getValue()));
+            return;
+        }
+        populateGrid(recipeService.getAll());
     }
 
-    private HorizontalLayout createButtonsLayout() {
-        HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private void populateGrid(List<Recipe> items) {
+        recipeGrid.setItems(items);
+    }
+
+    private void setCrudButtons() {
         editBt.setEnabled(false);
         delBt.setEnabled(false);
-        buttonsLayout.addComponents(addBt, editBt, delBt);
         addBt.addClickListener(click -> {
             Window recipeWindow = new RecipeFormWindow(Operations.add, new Recipe());
-            recipeWindow.addCloseListener(e -> {
+            recipeWindow.addCloseListener(closeEvent -> {
                 updateGrid();
             });
             getUI().addWindow(recipeWindow);
@@ -88,7 +127,7 @@ public class RecipeView extends VerticalLayout implements View {
         editBt.addClickListener(click -> {
             Recipe recipe = recipeGrid.asSingleSelect().getValue();
             Window recipeWindow = new RecipeFormWindow(Operations.edit, recipe);
-            recipeWindow.addCloseListener(e -> {
+            recipeWindow.addCloseListener(closeEvent -> {
                 updateGrid();
             });
             getUI().addWindow(recipeWindow);
@@ -98,7 +137,81 @@ public class RecipeView extends VerticalLayout implements View {
             recipeService.remove(recipe);
             updateGrid();
         });
-        return buttonsLayout;
+    }
+
+    private void setFilters() {
+        //setting up filter fields
+        patientCB.setTextInputAllowed(true);
+        patientCB.setPlaceholder("Выберите пациента");
+        patientCB.setWidth("100%");
+        populatePatientsCB(patientCB);
+        patientCB.addFocusListener(focusEvent -> {
+            populatePatientsCB(patientCB);
+        });
+
+        priorityCB.setTextInputAllowed(false);
+        priorityCB.setPlaceholder("Выберите приоритет");
+        priorityCB.setWidth("100%");
+        priorityCB.setItems(RecipePriority.values());
+
+        //filter fields logic
+        applyFilterBt.setEnabled(false);
+        clearFilterBt.setEnabled(false);
+        descriptionText.addValueChangeListener(change -> {
+            if (!change.getValue().isEmpty()) {
+                patientCB.setEnabled(false);
+                priorityCB.setEnabled(false);
+                applyFilterBt.setEnabled(true);
+            } else {
+                patientCB.setEnabled(true);
+                priorityCB.setEnabled(true);
+                applyFilterBt.setEnabled(false);
+            }
+        });
+
+        patientCB.addValueChangeListener(change -> {
+            if (!Objects.isNull(change.getValue())) {
+                descriptionText.setEnabled(false);
+                priorityCB.setEnabled(false);
+                applyFilterBt.setEnabled(true);
+            } else {
+                descriptionText.setEnabled(true);
+                priorityCB.setEnabled(true);
+                applyFilterBt.setEnabled(false);
+            }
+        });
+
+        priorityCB.addValueChangeListener(change -> {
+            if (!Objects.isNull(change.getValue())) {
+                patientCB.setEnabled(false);
+                descriptionText.setEnabled(false);
+                applyFilterBt.setEnabled(true);
+            } else {
+                patientCB.setEnabled(true);
+                descriptionText.setEnabled(true);
+                applyFilterBt.setEnabled(false);
+            }
+        });
+
+        //filter buttons logic
+        applyFilterBt.addClickListener(click -> {
+            clearFilterBt.setEnabled(true);
+            updateGrid();
+        });
+
+        clearFilterBt.addClickListener(click -> {
+            clearFilterBt.setEnabled((false));
+            populateGrid(recipeService.getAll());
+        });
+    }
+
+
+
+    public static void populatePatientsCB(ComboBox<Patient> patientComboBox) {
+        List<Patient> patients = PatientView.getPatientService().getAll();
+        patientComboBox.setItems(patients);
+        patientComboBox.setItemCaptionGenerator(patient ->
+                patient.getId() + " " + patient.getSurname() + " " + patient.getFirstName());
     }
 
     public static RecipeService getRecipeService() {

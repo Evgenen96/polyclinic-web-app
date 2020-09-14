@@ -9,6 +9,7 @@ import com.haulmont.testtask.dbService.entities.RecipePriority;
 import com.haulmont.testtask.dbService.services.base.RecipeService;
 
 import java.util.List;
+import java.util.Map;
 
 public class RecipeServiceImpl implements RecipeService {
 
@@ -40,8 +41,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public long getCountOfRecipesByDoctor(Doctor doctor) {
-        return jdbcRecipeDao.getCountOfRecipesByDoctor(doctor);
+    public Map<Doctor,Long> getCountOfRecipesByDoctor() {
+        return jdbcRecipeDao.getCountOfRecipesByDoctor();
     }
 
     @Override
