@@ -31,10 +31,16 @@ Task Description
     * Фильтрация списка рецептов по описанию, приоритету и пациенту
     * Добавление нового рецепта, редактирование и удаление существующего
 
+SQL Scripts Path (inside this repository)
+-------------
+
+* Script for creating tables: `db/createDB.sql`
+* Script for populating tables: `db/popDB.sql`
+
 Template Used
 -------------
 
-* [Haulmont Test Task]( https://github.com/Haulmont/test-task)
+* [Haulmont Test Task](https://github.com/Haulmont/test-task)
 
 Prerequisites
 -------------
