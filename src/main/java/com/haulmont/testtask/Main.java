@@ -1,7 +1,7 @@
 package com.haulmont.testtask;
 
-import com.haulmont.testtask.dbService.services.DBServiceImpl;
-import com.haulmont.testtask.dbService.services.base.DBService;
+import com.haulmont.testtask.dbservice.services.DBServiceImpl;
+import com.haulmont.testtask.dbservice.services.base.DBService;
 import org.hsqldb.util.DatabaseManagerSwing;
 
 /**

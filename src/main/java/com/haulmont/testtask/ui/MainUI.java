@@ -2,9 +2,9 @@ package com.haulmont.testtask.ui;
 
 import com.haulmont.testtask.ui.utils.Views;
 import com.haulmont.testtask.ui.views.MainView;
-import com.haulmont.testtask.ui.views.patientViews.PatientView;
-import com.haulmont.testtask.ui.views.doctorViews.DoctorView;
-import com.haulmont.testtask.ui.views.recipeViews.RecipeView;
+import com.haulmont.testtask.ui.views.patientviews.PatientView;
+import com.haulmont.testtask.ui.views.doctorviews.DoctorView;
+import com.haulmont.testtask.ui.views.recipeviews.RecipeView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;

@@ -1,11 +1,11 @@
 package com.haulmont.testtask.ui.views;
 
-import com.haulmont.testtask.dbService.services.DoctorServiceImpl;
-import com.haulmont.testtask.dbService.services.PatientServiceImpl;
-import com.haulmont.testtask.dbService.services.RecipeServiceImpl;
-import com.haulmont.testtask.dbService.services.base.DoctorService;
-import com.haulmont.testtask.dbService.services.base.PatientService;
-import com.haulmont.testtask.dbService.services.base.RecipeService;
+import com.haulmont.testtask.dbservice.services.DoctorServiceImpl;
+import com.haulmont.testtask.dbservice.services.PatientServiceImpl;
+import com.haulmont.testtask.dbservice.services.RecipeServiceImpl;
+import com.haulmont.testtask.dbservice.services.base.DoctorService;
+import com.haulmont.testtask.dbservice.services.base.PatientService;
+import com.haulmont.testtask.dbservice.services.base.RecipeService;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
