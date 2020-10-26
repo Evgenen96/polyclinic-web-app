@@ -139,7 +139,7 @@ public class RecipeView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Recipe recipe = recipeGrid.asSingleSelect().getValue();
-            recipeService.remove(recipe.getId());
+            recipeService.remove(recipe.getRecipeId());
             updateGrid();
         });
     }
@@ -218,7 +218,7 @@ public class RecipeView extends VerticalLayout implements View {
         List<Patient> patients = MainView.getPatientService().getAll();
         patientComboBox.setItems(patients);
         patientComboBox.setItemCaptionGenerator(patient ->
-                patient.getId() + " " + patient.getLastName() + " " + patient.getFirstName());
+                patient.getPatientId() + " " + patient.getLastName() + " " + patient.getFirstName());
     }
 
 }

@@ -56,7 +56,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         List<Doctor> doctors = MainView.getDoctorService().getAll();
         doctorCB.setItems(doctors);
         doctorCB.setItemCaptionGenerator(doctor ->
-                doctor.getId() + " " + doctor.getLastName() + " " + doctor.getFirstName());
+                doctor.getDoctorId() + " " + doctor.getLastName() + " " + doctor.getFirstName());
 
 
         creationDateField = new DateField("Дата создания");

@@ -81,7 +81,7 @@ public class DoctorView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Doctor doctor = doctorGrid.asSingleSelect().getValue();
-            doctorService.remove(doctor.getId());
+            doctorService.remove(doctor.getDoctorId());
             updateGrid();
         });
         statBt.addClickListener(click ->{

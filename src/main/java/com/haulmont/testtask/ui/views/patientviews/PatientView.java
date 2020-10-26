@@ -80,7 +80,7 @@ public class PatientView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Patient patient = patientGrid.asSingleSelect().getValue();
-            patientService.remove(patient.getId());
+            patientService.remove(patient.getPatientId());
             updateGrid();
         });
     }
