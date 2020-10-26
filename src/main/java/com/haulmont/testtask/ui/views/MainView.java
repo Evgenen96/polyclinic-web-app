@@ -1,24 +1,35 @@
 package com.haulmont.testtask.ui.views;
 
+import com.haulmont.testtask.config.AppConfig;
 import com.haulmont.testtask.dbservice.services.DoctorServiceImpl;
 import com.haulmont.testtask.dbservice.services.PatientServiceImpl;
+import com.haulmont.testtask.dbservice.services.PriorityServiceImpl;
 import com.haulmont.testtask.dbservice.services.RecipeServiceImpl;
-import com.haulmont.testtask.dbservice.services.base.DoctorService;
-import com.haulmont.testtask.dbservice.services.base.PatientService;
-import com.haulmont.testtask.dbservice.services.base.RecipeService;
+import com.haulmont.testtask.dbservice.services.interfaces.DoctorService;
+import com.haulmont.testtask.dbservice.services.interfaces.PatientService;
+import com.haulmont.testtask.dbservice.services.interfaces.PriorityService;
+import com.haulmont.testtask.dbservice.services.interfaces.RecipeService;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainView extends VerticalLayout implements View {
 
-    private static DoctorService doctorService = new DoctorServiceImpl();
-    private static PatientService patientService = new PatientServiceImpl();
-    private static RecipeService recipeService = new RecipeServiceImpl();
+    private static DoctorService doctorService;
+    private static PatientService patientService;
+    private static RecipeService recipeService;
+    private static PriorityService priorityService;
 
     public MainView() {
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        doctorService = context.getBean("doctorServiceImpl", DoctorServiceImpl.class);
+        patientService = context.getBean("patientServiceImpl", PatientServiceImpl.class);
+        recipeService = context.getBean("recipeServiceImpl", RecipeServiceImpl.class);
+        priorityService = context.getBean("priorityServiceImpl", PriorityServiceImpl.class);
 
         setSizeFull();
         setMargin(false);
@@ -47,5 +58,9 @@ public class MainView extends VerticalLayout implements View {
 
     public static RecipeService getRecipeService() {
         return recipeService;
+    }
+
+    public static PriorityService getPriorityService() {
+        return priorityService;
     }
 }

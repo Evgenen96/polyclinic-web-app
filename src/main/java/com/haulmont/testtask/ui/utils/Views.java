@@ -16,7 +16,6 @@ public enum Views {
                 return "Выданные рецепты";
             default:
                 return null;
-
         }
     }
 }

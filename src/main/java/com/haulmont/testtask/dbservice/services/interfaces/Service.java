@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.services.base;
+package com.haulmont.testtask.dbservice.services.interfaces;
 
 import java.util.List;
 
@@ -9,7 +9,5 @@ public interface Service<T> {
 
     List<T> getAll();
 
-    void update(T object);
-
-    void remove(T object);
+    void remove(Long id);
 }

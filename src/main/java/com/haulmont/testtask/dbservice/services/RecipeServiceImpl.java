@@ -1,62 +1,65 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.dao.RecipeDaoImpl;
-import com.haulmont.testtask.dbservice.dao.base.RecipeDao;
-import com.haulmont.testtask.dbservice.entities.Doctor;
+import com.haulmont.testtask.dbservice.dao.interfaces.RecipeDao;
 import com.haulmont.testtask.dbservice.entities.Patient;
 import com.haulmont.testtask.dbservice.entities.Recipe;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
-import com.haulmont.testtask.dbservice.services.base.RecipeService;
+import com.haulmont.testtask.dbservice.services.interfaces.RecipeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private static RecipeDao jdbcRecipeDao = new RecipeDaoImpl();
+    @Autowired
+    private RecipeDao hibernateRecipeDao;
 
     @Override
+    @Transactional
     public void save(Recipe recipe) {
-        jdbcRecipeDao.save(recipe);
+        hibernateRecipeDao.save(recipe);
     }
 
     @Override
+    @Transactional
     public Recipe getById(Long id) {
-        return jdbcRecipeDao.getById(id);
+        return hibernateRecipeDao.getById(id);
     }
 
     @Override
+    @Transactional
     public List<Recipe> getAll() {
-        return jdbcRecipeDao.getAll();
+        return hibernateRecipeDao.getAll();
+    }
+
+
+    @Override
+    @Transactional
+    public void remove(Long id) {
+        hibernateRecipeDao.remove(id);
     }
 
     @Override
-    public void update(Recipe recipe) {
-        jdbcRecipeDao.update(recipe);
-    }
-
-    @Override
-    public void remove(Recipe recipe) {
-        jdbcRecipeDao.remove(recipe);
-    }
-
-    @Override
-    public Map<Doctor,Long> getCountOfRecipesByDoctor() {
-        return jdbcRecipeDao.getCountOfRecipesByDoctor();
+    public Map<String,Long> getCountOfRecipesByDoctor() {
+        return hibernateRecipeDao.getCountOfRecipesByDoctor();
     }
 
     @Override
     public List<Recipe> filterByDescription(String description) {
-        return jdbcRecipeDao.filterByDescription(description);
+        return hibernateRecipeDao.filterByDescription(description);
     }
 
     @Override
     public List<Recipe> filterByPatient(Patient patient) {
-        return jdbcRecipeDao.filterByPatientName(patient);
+        return hibernateRecipeDao.filterByPatientName(patient);
     }
 
     @Override
     public List<Recipe> filterByPriority(RecipePriority priority) {
-        return jdbcRecipeDao.filterByPriority(priority);
+        return hibernateRecipeDao.filterByPriority(priority);
     }
 }

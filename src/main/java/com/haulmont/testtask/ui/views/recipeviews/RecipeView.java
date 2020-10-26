@@ -3,10 +3,9 @@ package com.haulmont.testtask.ui.views.recipeviews;
 import com.haulmont.testtask.dbservice.entities.Patient;
 import com.haulmont.testtask.dbservice.entities.Recipe;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
-import com.haulmont.testtask.dbservice.services.base.RecipeService;
+import com.haulmont.testtask.dbservice.services.interfaces.RecipeService;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.MainView;
-import com.haulmont.testtask.ui.views.patientviews.PatientView;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
 
@@ -18,7 +17,8 @@ import java.util.Objects;
  */
 public class RecipeView extends VerticalLayout implements View {
 
-    private static RecipeService recipeService;
+    private RecipeService recipeService;
+
     private final Grid<Recipe> recipeGrid = new Grid<>("Выписанные рецепты");
     private final Button editBt = new Button("Редактировать");
     private final Button addBt = new Button("Добавить");
@@ -64,11 +64,11 @@ public class RecipeView extends VerticalLayout implements View {
     private void setGrid() {
         recipeGrid.addColumn(Recipe::getDescription).setCaption("Описание");
         recipeGrid.addColumn(Recipe -> {
-            return Recipe.getPatient().getSurname() + " " +
+            return Recipe.getPatient().getLastName() + " " +
                     Recipe.getPatient().getFirstName();
         }).setCaption("Пациент");
         recipeGrid.addColumn(Recipe -> {
-            return Recipe.getDoctor().getSurname() + " " +
+            return Recipe.getDoctor().getLastName() + " " +
                     Recipe.getDoctor().getFirstName();
         }).setCaption("Доктор");
         recipeGrid.addColumn(Recipe::getCreationDate).setCaption("Дата выписки");
@@ -86,7 +86,7 @@ public class RecipeView extends VerticalLayout implements View {
             }
             return Recipe.getValidity() + days;
         }).setCaption("Срок действия");
-        recipeGrid.addColumn(Recipe::getPriority).setCaption("Приоритет");
+        recipeGrid.addColumn(Recipe::getRecipePriority).setCaption("Приоритет");
         recipeGrid.setSizeFull();
         recipeGrid.addSelectionListener(valueChangeEvent -> {
             if (!recipeGrid.asSingleSelect().isEmpty()) {
@@ -139,7 +139,7 @@ public class RecipeView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Recipe recipe = recipeGrid.asSingleSelect().getValue();
-            recipeService.remove(recipe);
+            recipeService.remove(recipe.getId());
             updateGrid();
         });
     }
@@ -160,7 +160,7 @@ public class RecipeView extends VerticalLayout implements View {
         priorityCB.setTextInputAllowed(false);
         priorityCB.setPlaceholder("Выберите приоритет");
         priorityCB.setWidth("250px");
-        priorityCB.setItems(RecipePriority.values());
+        priorityCB.setItems(MainView.getPriorityService().getAll());
 
         //filter fields logic
         applyFilterBt.setEnabled(false);
@@ -214,24 +214,11 @@ public class RecipeView extends VerticalLayout implements View {
     }
 
 
-
     public static void populatePatientsCB(ComboBox<Patient> patientComboBox) {
-        List<Patient> patients = PatientView.getPatientService().getAll();
+        List<Patient> patients = MainView.getPatientService().getAll();
         patientComboBox.setItems(patients);
         patientComboBox.setItemCaptionGenerator(patient ->
-                patient.getId() + " " + patient.getSurname() + " " + patient.getFirstName());
+                patient.getId() + " " + patient.getLastName() + " " + patient.getFirstName());
     }
 
-    public static RecipeService getRecipeService() {
-        return recipeService;
-    }
-
-    public static void setRecipeService(RecipeService recipeService) {
-        RecipeView.recipeService = recipeService;
-    }
-
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent event) {
-//        Notification.show("Welcome to the Animal Farm");
-//    }
 }

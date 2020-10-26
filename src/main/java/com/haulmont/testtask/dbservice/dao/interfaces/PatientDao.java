@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.dao.base;
+package com.haulmont.testtask.dbservice.dao.interfaces;
 
 import com.haulmont.testtask.dbservice.entities.Patient;
 

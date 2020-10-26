@@ -1,6 +1,6 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.services.base.DBService;
+import com.haulmont.testtask.dbservice.services.interfaces.DBService;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -18,7 +18,6 @@ public class DBServiceImpl implements DBService {
         ResourceBundle resource = ResourceBundle.getBundle("database");
         String driver = resource.getString("db.driver");
         String url = resource.getString("db.url");
-        String dbName = resource.getString("db.dbname");
         String username = resource.getString("db.user");
         String password = resource.getString("db.password");
 
@@ -29,9 +28,9 @@ public class DBServiceImpl implements DBService {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(url + dbName, username, password);
+            connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            System.out.println("Can't connect to database:" + dbName);
+            System.out.println("Can't connect to database:" + url);
             e.printStackTrace();
         }
         return connection;

@@ -1,7 +1,7 @@
 package com.haulmont.testtask.ui.views.doctorviews;
 
 import com.haulmont.testtask.dbservice.entities.Doctor;
-import com.haulmont.testtask.dbservice.services.base.DoctorService;
+import com.haulmont.testtask.dbservice.services.interfaces.DoctorService;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.MainView;
 import com.vaadin.navigator.View;
@@ -12,7 +12,8 @@ import com.vaadin.ui.*;
  */
 public class DoctorView extends VerticalLayout implements View {
 
-    private static DoctorService doctorService;
+    private DoctorService doctorService;
+
     private final Grid<Doctor> doctorGrid = new Grid<>("Доктора");
     private final Button editBt = new Button("Редактировать");
     private final Button addBt = new Button("Добавить");
@@ -27,7 +28,7 @@ public class DoctorView extends VerticalLayout implements View {
         updateGrid();
 
         HorizontalLayout buttonsLayout = new HorizontalLayout();
-        buttonsLayout.addComponents(addBt, editBt, delBt);
+        buttonsLayout.addComponents(addBt, editBt, delBt, statBt);
         setCrudButtons();
 
         VerticalLayout layout = new VerticalLayout();
@@ -40,7 +41,7 @@ public class DoctorView extends VerticalLayout implements View {
     }
 
     private void setGrid() {
-        doctorGrid.addColumn(Doctor::getSurname).setCaption("Фамилия");
+        doctorGrid.addColumn(Doctor::getLastName).setCaption("Фамилия");
         doctorGrid.addColumn(Doctor::getFirstName).setCaption("Имя");
         doctorGrid.addColumn(Doctor::getPatronymic).setCaption("Отчество");
         doctorGrid.addColumn(Doctor::getSpecialization).setCaption("Специализация");
@@ -64,7 +65,7 @@ public class DoctorView extends VerticalLayout implements View {
         editBt.setEnabled(false);
         delBt.setEnabled(false);
         addBt.addClickListener(click -> {
-            Window doctorWindow = new DoctorFormWindow(Operations.add, null);
+            Window doctorWindow = new DoctorFormWindow(Operations.add, new Doctor());
             doctorWindow.addCloseListener(e -> {
                 updateGrid();
             });
@@ -80,7 +81,7 @@ public class DoctorView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Doctor doctor = doctorGrid.asSingleSelect().getValue();
-            doctorService.remove(doctor);
+            doctorService.remove(doctor.getId());
             updateGrid();
         });
         statBt.addClickListener(click ->{
@@ -89,13 +90,6 @@ public class DoctorView extends VerticalLayout implements View {
         });
     }
 
-    public static DoctorService getDoctorService() {
-        return doctorService;
-    }
-
-    public static void setDoctorService(DoctorService doctorService) {
-        DoctorView.doctorService = doctorService;
-    }
 }
 
 

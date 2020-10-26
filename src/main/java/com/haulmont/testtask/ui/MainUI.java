@@ -22,7 +22,7 @@ import javax.servlet.annotation.WebServlet;
 public class MainUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MainUI.class)
+    @VaadinServletConfiguration(productionMode = true, ui = MainUI.class)
     public static class Servlet extends VaadinServlet {
     }
 

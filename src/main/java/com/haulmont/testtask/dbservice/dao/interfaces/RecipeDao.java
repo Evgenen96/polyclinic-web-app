@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.dao.base;
+package com.haulmont.testtask.dbservice.dao.interfaces;
 
 import com.haulmont.testtask.dbservice.entities.Doctor;
 import com.haulmont.testtask.dbservice.entities.Patient;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface RecipeDao extends Dao<Recipe> {
-   Map<Doctor, Long> getCountOfRecipesByDoctor();
+    Map<String, Long> getCountOfRecipesByDoctor();
 
     List<Recipe> filterByDescription(String description);
 

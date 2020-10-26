@@ -3,6 +3,7 @@ package com.haulmont.testtask.ui.views.doctorviews;
 import com.haulmont.testtask.dbservice.entities.Doctor;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.AbstractUtilForm;
+import com.haulmont.testtask.ui.views.MainView;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.navigator.View;
@@ -57,7 +58,7 @@ public class DoctorForm extends AbstractUtilForm<Doctor> implements View {
         binder.forField(surnameText)
                 .withValidator(string -> string != null && !string.isEmpty(), "Введите фамилию")
                 .asRequired()
-                .bind(Doctor::getSurname, Doctor::setSurname);
+                .bind(Doctor::getLastName, Doctor::setLastName);
         binder.forField(patronymicText)
                 .withValidator(string -> string != null && !string.isEmpty(), "Введите отчество")
                 .asRequired()
@@ -78,7 +79,7 @@ public class DoctorForm extends AbstractUtilForm<Doctor> implements View {
                     } catch (ValidationException ex) {
                         ex.printStackTrace();
                     }
-                    DoctorView.getDoctorService().update(domainObject);
+                    MainView.getDoctorService().save(domainObject);
                     findAncestor(Window.class).close();
                 } else if (operation == Operations.add) {
                     try {
@@ -86,7 +87,7 @@ public class DoctorForm extends AbstractUtilForm<Doctor> implements View {
                     } catch (ValidationException ex) {
                         ex.printStackTrace();
                     }
-                    DoctorView.getDoctorService().save(domainObject);
+                    MainView.getDoctorService().save(domainObject);
                     findAncestor(Window.class).close();
                 }
             }

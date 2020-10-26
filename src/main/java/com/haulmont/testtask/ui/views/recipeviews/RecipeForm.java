@@ -6,7 +6,7 @@ import com.haulmont.testtask.dbservice.entities.Recipe;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.AbstractUtilForm;
-import com.haulmont.testtask.ui.views.doctorviews.DoctorView;
+import com.haulmont.testtask.ui.views.MainView;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.data.converter.LocalDateToDateConverter;
@@ -53,10 +53,10 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         doctorCB = new ComboBox<>("Доктор");
         doctorCB.setPlaceholder("Выберите доктора");
         doctorCB.setWidth("100%");
-        List<Doctor> doctors = DoctorView.getDoctorService().getAll();
+        List<Doctor> doctors = MainView.getDoctorService().getAll();
         doctorCB.setItems(doctors);
         doctorCB.setItemCaptionGenerator(doctor ->
-                doctor.getId() + " " + doctor.getSurname() + " " + doctor.getFirstName());
+                doctor.getId() + " " + doctor.getLastName() + " " + doctor.getFirstName());
 
 
         creationDateField = new DateField("Дата создания");
@@ -70,7 +70,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         priorityCB.setTextInputAllowed(false);
         priorityCB.setPlaceholder("Выберите приоритет");
         priorityCB.setWidth("100%");
-        priorityCB.setItems(RecipePriority.values());
+        priorityCB.setItems(MainView.getPriorityService().getAll());
 
 
         //binders + validation
@@ -121,7 +121,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
         binder.forField(priorityCB)
                 .withValidator(Objects::nonNull, "Выберите приоритет")
                 .asRequired()
-                .bind(Recipe::getPriority, Recipe::setPriority);
+                .bind(Recipe::getRecipePriority, Recipe::setRecipePriority);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
                     } catch (ValidationException ex) {
                         ex.printStackTrace();
                     }
-                    RecipeView.getRecipeService().update(domainObject);
+                    MainView.getRecipeService().save(domainObject);
                     findAncestor(Window.class).close();
                 } else if (operation == Operations.add) {
                     try {
@@ -142,7 +142,7 @@ public class RecipeForm extends AbstractUtilForm<Recipe> implements View {
                     } catch (ValidationException ex) {
                         ex.printStackTrace();
                     }
-                    RecipeView.getRecipeService().save(domainObject);
+                    MainView.getRecipeService().save(domainObject);
                     findAncestor(Window.class).close();
                 }
             }

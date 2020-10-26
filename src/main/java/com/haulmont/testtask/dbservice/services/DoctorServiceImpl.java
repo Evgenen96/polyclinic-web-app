@@ -1,39 +1,42 @@
 package com.haulmont.testtask.dbservice.services;
 
 
-import com.haulmont.testtask.dbservice.dao.DoctorDaoImpl;
-import com.haulmont.testtask.dbservice.dao.base.DoctorDao;
+import com.haulmont.testtask.dbservice.dao.interfaces.DoctorDao;
 import com.haulmont.testtask.dbservice.entities.Doctor;
-import com.haulmont.testtask.dbservice.services.base.DoctorService;
+import com.haulmont.testtask.dbservice.services.interfaces.DoctorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class DoctorServiceImpl implements DoctorService {
 
-    private static DoctorDao jdbcDoctorDao = new DoctorDaoImpl();
+    @Autowired
+    private DoctorDao hibernateDoctorDao;
 
     @Override
+    @Transactional
     public void save(Doctor doctor) {
-        jdbcDoctorDao.save(doctor);
+        hibernateDoctorDao.save(doctor);
     }
 
     @Override
+    @Transactional
     public Doctor getById(Long id) {
-        return jdbcDoctorDao.getById(id);
+        return hibernateDoctorDao.getById(id);
     }
 
     @Override
+    @Transactional
     public List<Doctor> getAll() {
-        return jdbcDoctorDao.getAll();
+        return hibernateDoctorDao.getAll();
     }
 
     @Override
-    public void update(Doctor doctor) {
-        jdbcDoctorDao.update(doctor);
-    }
-
-    @Override
-    public void remove(Doctor doctor) {
-        jdbcDoctorDao.remove(doctor);
+    @Transactional
+    public void remove(Long id) {
+        hibernateDoctorDao.remove(id);
     }
 }

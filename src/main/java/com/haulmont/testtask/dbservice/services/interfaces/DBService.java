@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.services.base;
+package com.haulmont.testtask.dbservice.services.interfaces;
 
 
 public interface DBService {

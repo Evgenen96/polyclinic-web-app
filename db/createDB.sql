@@ -1,34 +1,34 @@
-CREATE TABLE IF NOT EXISTS patients
+CREATE TABLE IF NOT EXISTS patient
 (
-    patient_id   bigint IDENTITY PRIMARY KEY,
-    first_name   varchar(255) NOT NULL,
-    surname      varchar(255) NOT NULL,
+    patientId   bigint IDENTITY PRIMARY KEY,
+    firstName   varchar(255) NOT NULL,
+    lastName      varchar(255) NOT NULL,
     patronymic   varchar(255) NOT NULL,
-    phone_number varchar(15)  NOT NULL
+    phoneNumber varchar(15)  NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS doctors
+CREATE TABLE IF NOT EXISTS doctor
 (
-    doctor_id      bigint IDENTITY PRIMARY KEY,
-    first_name     varchar(255) NOT NULL,
-    surname        varchar(255) NOT NULL,
+    doctorId      bigint IDENTITY PRIMARY KEY,
+    firstName     varchar(255) NOT NULL,
+    lastName        varchar(255) NOT NULL,
     patronymic     varchar(255) NOT NULL,
     specialization varchar(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS recipe_priorities
+CREATE TABLE IF NOT EXISTS recipePriority
 (
-    priority_id   smallint IDENTITY PRIMARY KEY,
-    priority_name varchar(63) NOT NULL
+    priorityId   smallint IDENTITY PRIMARY KEY,
+    priorityName varchar(63) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS recipes
+CREATE TABLE IF NOT EXISTS recipe
 (
-    recipe_id     bigint IDENTITY PRIMARY KEY,
+    recipeId     bigint IDENTITY PRIMARY KEY,
     description   varchar(255) NOT NULL,
-    patient_id    bigint FOREIGN KEY REFERENCES patients,
-    doctor_id     bigint FOREIGN KEY REFERENCES doctors,
-    creation_date date DEFAULT current_date NOT NULL,
+    patientId    bigint FOREIGN KEY REFERENCES patient(patientId),
+    doctorId     bigint FOREIGN KEY REFERENCES doctor(doctorId),
+    creationDate date DEFAULT current_date NOT NULL,
     validity    int NOT NULL,
-    priority_id   smallint DEFAULT 1 FOREIGN KEY REFERENCES recipe_priorities
+    priorityId   smallint DEFAULT 1 FOREIGN KEY REFERENCES recipePriority(priorityId)
 );

@@ -1,10 +1,10 @@
-INSERT INTO recipe_priorities (priority_name)
+INSERT INTO recipePriority (priorityName)
 VALUES ('NORMAL'),
       ('CITO'),
        ('STATIM');
 
-INSERT INTO patients
-    (first_name, surname, patronymic, phone_number)
+INSERT INTO patient
+    (lastName, firstName, patronymic, phoneNumber)
 VALUES ('Деникина','Розалия','Германовна','7(143)206-15-53'),
 ('Колганов','Никифор','Елизарович','7(582)175-50-66'),
 ('Сагунова','Оксана','Карповна','7(800)396-70-90'),
@@ -106,8 +106,8 @@ VALUES ('Деникина','Розалия','Германовна','7(143)206-15
 ('Лысова','Роза','Александровна','7(659)384-68-57'),
 ('Янкина','Татьяна','Федоровна','7(966)999-94-40');
 
-INSERT INTO doctors
-    (first_name, surname, patronymic, specialization)
+INSERT INTO doctor
+    (lastName, firstName, patronymic, specialization)
 VALUES ('Ермушина','Ульяна','Романовна','терапевт'),
 ('Рыбьякова','Инга','Святославовна','терапевт подростковый'),
 ('Толстокожев','Борис','Онисимович','педиатр'),
@@ -137,8 +137,8 @@ VALUES ('Ермушина','Ульяна','Романовна','терапевт
 ('Богомазов','Прокофий','Макарович','врач реабилитолог'),
 ('Проскуркин','Афанасий','Демьянович','врач рентгенолог');
 
-INSERT INTO recipes
-(description, patient_id, doctor_id, creation_date, validity, priority_id)
+INSERT INTO recipe
+(description, patientId, doctorId, creationDate, validity, priorityId)
 VALUES ('Алькафлайн',4, 12, '2018-10-29', 284, 1),
 ('Зевамунекс', 11, 10, '2018-10-02', 49, 1),
 ('Сапротазон', 20, 12, '2020-02-12', 289, 1),

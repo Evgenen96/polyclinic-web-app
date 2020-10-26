@@ -1,30 +1,48 @@
 package com.haulmont.testtask.dbservice.entities;
 
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "patient")
 public class Patient {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="patientId")
     private Long id;
+
+    @Column(name = "firstName")
     private String firstName;
-    private String surname;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "patronymic")
     private String patronymic;
+
+    @Column(name = "phoneNumber")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "patient")
+    private List<Recipe> recipes;
 
     public Patient() {
 
     }
 
-    public Patient(String firstName, String surname, String patronymic, String phoneNumber) {
+    public Patient(String firstName, String lastName, String patronymic, String phoneNumber) {
         this.firstName = firstName;
-        this.surname = surname;
+        this.lastName = lastName;
         this.patronymic = patronymic;
         this.phoneNumber = phoneNumber;
     }
 
-    public Patient(Long id, String firstName, String surname, String patronymic, String phoneNumber) {
+    public Patient(Long id, String firstName, String lastName, String patronymic, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
-        this.surname = surname;
+        this.lastName = lastName;
         this.patronymic = patronymic;
         this.phoneNumber = phoneNumber;
     }
@@ -46,12 +64,12 @@ public class Patient {
         this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPatronymic() {
@@ -72,7 +90,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient #" + id + " - " + firstName + " " + surname + " " + patronymic + ". Phone: " + phoneNumber;
+        return "Patient #" + id + " - " + firstName + " " + lastName + " " + patronymic + ". Phone: " + phoneNumber;
     }
 
     @Override
@@ -82,13 +100,13 @@ public class Patient {
         Patient patient = (Patient) o;
         return id.equals(patient.id) &&
                 firstName.equals(patient.firstName) &&
-                surname.equals(patient.surname) &&
+                lastName.equals(patient.lastName) &&
                 patronymic.equals(patient.patronymic) &&
                 phoneNumber.equals(patient.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, surname, patronymic, phoneNumber);
+        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber);
     }
 }

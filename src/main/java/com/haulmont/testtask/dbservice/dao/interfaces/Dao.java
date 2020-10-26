@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.dao.base;
+package com.haulmont.testtask.dbservice.dao.interfaces;
 
 import java.util.List;
 
@@ -10,7 +10,5 @@ public interface Dao<T> {
 
     List<T> getAll();
 
-    void update(T object);
-
-    void remove(T object);
+    void remove(Long id);
 }

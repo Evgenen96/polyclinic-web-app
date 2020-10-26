@@ -1,7 +1,7 @@
 package com.haulmont.testtask.ui.views.patientviews;
 
 import com.haulmont.testtask.dbservice.entities.Patient;
-import com.haulmont.testtask.dbservice.services.base.PatientService;
+import com.haulmont.testtask.dbservice.services.interfaces.PatientService;
 import com.haulmont.testtask.ui.utils.Operations;
 import com.haulmont.testtask.ui.views.MainView;
 import com.vaadin.navigator.View;
@@ -12,7 +12,8 @@ import com.vaadin.ui.*;
  */
 public class PatientView extends VerticalLayout implements View {
 
-    private static PatientService patientService;
+    private PatientService patientService;
+
     private final Grid<Patient> patientGrid = new Grid<>("Пациенты");
     private final Button editBt = new Button("Редактировать");
     private final Button addBt = new Button("Добавить");
@@ -39,7 +40,7 @@ public class PatientView extends VerticalLayout implements View {
     }
 
     private void setGrid() {
-        patientGrid.addColumn(Patient::getSurname).setCaption("Фамилия");
+        patientGrid.addColumn(Patient::getLastName).setCaption("Фамилия");
         patientGrid.addColumn(Patient::getFirstName).setCaption("Имя");
         patientGrid.addColumn(Patient::getPatronymic).setCaption("Отчество");
         patientGrid.addColumn(Patient::getPhoneNumber).setCaption("Телефон");
@@ -79,21 +80,8 @@ public class PatientView extends VerticalLayout implements View {
         });
         delBt.addClickListener(click -> {
             Patient patient = patientGrid.asSingleSelect().getValue();
-            patientService.remove(patient);
+            patientService.remove(patient.getId());
             updateGrid();
         });
     }
-
-    public static PatientService getPatientService() {
-        return patientService;
-    }
-
-    public static void setPatientService(PatientService patientService) {
-        PatientView.patientService = patientService;
-    }
-
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent event) {
-//        Notification.show("Welcome to the Animal Farm");
-//    }
 }

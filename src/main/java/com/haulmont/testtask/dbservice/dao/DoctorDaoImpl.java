@@ -1,103 +1,53 @@
 package com.haulmont.testtask.dbservice.dao;
 
-import com.haulmont.testtask.dbservice.dao.base.DoctorDao;
-import com.haulmont.testtask.dbservice.services.DBServiceImpl;
+import com.haulmont.testtask.dbservice.dao.interfaces.DoctorDao;
 import com.haulmont.testtask.dbservice.entities.Doctor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DoctorDaoImpl implements DoctorDao {
 
-    @Override
-    public void save(Doctor doctor) {
-        String sqlQuery = "INSERT INTO doctors(first_name, surname, patronymic, specialization) VALUES(?,?,?,?)";
-        try (Connection connection = DBServiceImpl.getHSQLConnection();
-             PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setString(1, doctor.getFirstName());
-            preparedStmt.setString(2, doctor.getSurname());
-            preparedStmt.setString(3, doctor.getPatronymic());
-            preparedStmt.setString(4, doctor.getSpecialization());
-            preparedStmt.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            e.printStackTrace();
-            System.out.println("Can't remove record: " + doctor +
-                    " \nbecause something references this");
-        } catch (SQLException sqlexception) {
-            sqlexception.printStackTrace();
-        }
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public DoctorDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Doctor getById(Long id) {
-        String sqlQuery = "SELECT * FROM doctors WHERE doctor_id = ?";
-        try (Connection connection = DBServiceImpl.getHSQLConnection();
-             PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setLong(1, id);
-            ResultSet rs = preparedStmt.executeQuery();
-            if (!rs.next()) return null;
-            return getDoctor(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void save(Doctor theDoctor) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.saveOrUpdate(theDoctor);
     }
 
     @Override
-    public List getAll() {
-        List<Doctor> list = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM doctors;";
-        try (Connection connection = DBServiceImpl.getHSQLConnection();
-             Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sqlQuery);
-            while (rs.next()) {
-                list.add(getDoctor(rs));
-            }
-        } catch (SQLException e) {
-            list = null;
-            e.printStackTrace();
-        }
-        return list;
+    public Doctor getById(Long theId) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Doctor theDoctor = currentSession.get(Doctor.class, theId);
+        return theDoctor;
     }
 
     @Override
-    public void update(Doctor doctor) {
-        String sqlQuery =
-                "UPDATE doctors " +
-                        "SET first_name = ?, surname = ?, patronymic = ?, specialization = ? " +
-                        "WHERE doctor_id = ?;";
-        try (Connection connection = DBServiceImpl.getHSQLConnection();
-             PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setString(1, doctor.getFirstName());
-            preparedStmt.setString(2, doctor.getSurname());
-            preparedStmt.setString(3, doctor.getPatronymic());
-            preparedStmt.setString(4, doctor.getSpecialization());
-            preparedStmt.setLong(5, doctor.getId());
-            preparedStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public List<Doctor> getAll() {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Doctor> theQuery =
+                currentSession.createQuery("from Doctor order by lastName", Doctor.class);
+        List<Doctor> doctors = theQuery.getResultList();
+        return doctors;
     }
 
     @Override
-    public void remove(Doctor doctor) {
-        String sqlQuery = "DELETE FROM doctors " + "WHERE doctor_id = ?";
-        try (Connection connection = DBServiceImpl.getHSQLConnection();
-             PreparedStatement preparedStmt = connection.prepareStatement(sqlQuery)) {
-            preparedStmt.setLong(1, doctor.getId());
-            preparedStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Doctor getDoctor(ResultSet rs) throws SQLException {
-        return new Doctor(
-                rs.getLong("doctor_id"),
-                rs.getString("first_name"),
-                rs.getString("surname"),
-                rs.getString("patronymic"),
-                rs.getString("specialization"));
+    public void remove(Long theId) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query theQuery =
+                currentSession.createQuery("delete from Doctor where doctorId=:doctorId");
+        theQuery.setParameter("doctorId", theId);
+        theQuery.executeUpdate();
     }
 }
