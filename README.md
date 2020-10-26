@@ -1,8 +1,9 @@
-Polyclinic Test Task 
-=========
+# Polyclinic Test Task 
 
-Task Description
--------------
+## Latest Release
+v1.1 - Hibernate release [Download](https://github.com/Evgenen96/polyclinic-web-app/archive/v1.1.zip)
+
+## Task Description
 * Реализовать систему ввода и отображения информации о рецептах поликлиники, включающую следующие сущности и их атрибуты:
     * Пациент
         * Имя
@@ -31,25 +32,21 @@ Task Description
     * Фильтрация списка рецептов по описанию, приоритету и пациенту
     * Добавление нового рецепта, редактирование и удаление существующего
 
-SQL Scripts Path (inside this repository)
--------------
+## SQL Scripts Path (inside this repository)
 
 * Script for creating tables: `db/createDB.sql`
 * Script for populating tables: `db/popDB.sql`
 
-Template Used
--------------
+## Template Used
 
 * [Haulmont Test Task](https://github.com/Haulmont/test-task)
 
-Prerequisites
--------------
+## Prerequisites
 
 * [Java Development Kit (JDK) 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 * [Maven 3](https://maven.apache.org/download.cgi)
 
-Build and Run
--------------
+## Build and Run
 
 1. Run in the command line:
 	```
