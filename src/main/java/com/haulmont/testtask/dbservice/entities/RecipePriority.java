@@ -10,7 +10,7 @@ public class RecipePriority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "priorityId")
-    private Integer id;
+    private Integer priorityId;
 
     @Column(name = "priorityName")
     private String name;
@@ -25,12 +25,12 @@ public class RecipePriority {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPriorityId() {
+        return priorityId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPriorityId(Integer priorityId) {
+        this.priorityId = priorityId;
     }
 
     public String getName() {

@@ -11,7 +11,7 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctorId")
-    private Long id;
+    private Long doctorId;
 
     @Column(name = "firstName")
     private String firstName;
@@ -39,20 +39,20 @@ public class Doctor {
         this.specialization = specialization;
     }
 
-    public Doctor(Long id, String firstName, String lastName, String patronymic, String specialization) {
-        this.id = id;
+    public Doctor(Long doctorId, String firstName, String lastName, String patronymic, String specialization) {
+        this.doctorId = doctorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.specialization = specialization;
     }
 
-    public Long getId() {
-        return id;
+    public Long getDoctorId() {
+        return doctorId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getFirstName() {
@@ -89,7 +89,7 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return "Doctor #" + id + " - " + firstName + " " + lastName + " " + patronymic + " - " + specialization;
+        return "Doctor #" + doctorId + " - " + firstName + " " + lastName + " " + patronymic + " - " + specialization;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class Doctor {
         if (this == o) return true;
         if (!(o instanceof Doctor)) return false;
         Doctor doctor = (Doctor) o;
-        return id.equals(doctor.id) &&
+        return doctorId.equals(doctor.doctorId) &&
                 firstName.equals(doctor.firstName) &&
                 lastName.equals(doctor.lastName) &&
                 patronymic.equals(doctor.patronymic) &&
@@ -106,6 +106,6 @@ public class Doctor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, patronymic, specialization);
+        return Objects.hash(doctorId, firstName, lastName, patronymic, specialization);
     }
 }

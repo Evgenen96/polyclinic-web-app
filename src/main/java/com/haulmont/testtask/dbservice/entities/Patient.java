@@ -11,7 +11,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="patientId")
-    private Long id;
+    private Long patientId;
 
     @Column(name = "firstName")
     private String firstName;
@@ -39,20 +39,20 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-    public Patient(Long id, String firstName, String lastName, String patronymic, String phoneNumber) {
-        this.id = id;
+    public Patient(Long patientId, String firstName, String lastName, String patronymic, String phoneNumber) {
+        this.patientId = patientId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPatientId() {
+        return patientId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public String getFirstName() {
@@ -90,7 +90,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient #" + id + " - " + firstName + " " + lastName + " " + patronymic + ". Phone: " + phoneNumber;
+        return "Patient #" + patientId + " - " + firstName + " " + lastName + " " + patronymic + ". Phone: " + phoneNumber;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Patient {
         if (this == o) return true;
         if (!(o instanceof Patient)) return false;
         Patient patient = (Patient) o;
-        return id.equals(patient.id) &&
+        return patientId.equals(patient.patientId) &&
                 firstName.equals(patient.firstName) &&
                 lastName.equals(patient.lastName) &&
                 patronymic.equals(patient.patronymic) &&
@@ -107,6 +107,6 @@ public class Patient {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber);
+        return Objects.hash(patientId, firstName, lastName, patronymic, phoneNumber);
     }
 }

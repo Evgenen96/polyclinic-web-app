@@ -11,7 +11,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipeId")
-    private Long id;
+    private Long recipeId;
 
     @Column(name = "description")
     private String description;
@@ -46,12 +46,12 @@ public class Recipe {
     }
 
 
-    public Long getId() {
-        return id;
+    public Long getRecipeId() {
+        return recipeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getDescription() {
@@ -104,7 +104,7 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "\nRecipe #" + id + ": " + description +
+        return "\nRecipe #" + recipeId + ": " + description +
                 "\n\tTo: " + patient +
                 "\n\tFrom: " + doctor + "\n" +
                 creationDate + "; " +  validity + " days" +
@@ -116,7 +116,7 @@ public class Recipe {
         if (this == o) return true;
         if (!(o instanceof Recipe)) return false;
         Recipe recipe = (Recipe) o;
-        return Objects.equals(id, recipe.id) &&
+        return Objects.equals(recipeId, recipe.recipeId) &&
                 Objects.equals(description, recipe.description) &&
                 Objects.equals(creationDate, recipe.creationDate) &&
                 Objects.equals(validity, recipe.validity) &&
@@ -127,6 +127,6 @@ public class Recipe {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, creationDate, validity, doctor, patient, recipePriority);
+        return Objects.hash(recipeId, description, creationDate, validity, doctor, patient, recipePriority);
     }
 }
