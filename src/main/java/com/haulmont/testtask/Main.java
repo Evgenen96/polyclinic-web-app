@@ -19,7 +19,7 @@ public class Main {
 //            DBServiceImpl.getHSQLConnection();
 //            db.createDB();
 //            db.populateDB();
-//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 //        DoctorService d = context.getBean("doctorServiceImpl", DoctorServiceImpl.class);
 //        System.out.println(d.getById(0L));
 //        System.out.println(d.getAll().get(0));
@@ -28,12 +28,11 @@ public class Main {
 //        System.out.println(ps.getById(5L));
 //
 //
-//        RecipeService rs = context.getBean("recipeServiceImpl", RecipeService.class);
-//        System.out.println(rs.getById(3L));
-//        System.out.println(rs.getAll().get(3));
+        RecipeService rs = context.getBean("recipeServiceImpl", RecipeService.class);
+        System.out.println(rs.getCountOfRecipesByDoctor());
 //
-        DatabaseManagerSwing.main(new String[] {
-                "--url", "jdbc:hsqldb:file:db/testdb", "--noexit"
-        });
+//        DatabaseManagerSwing.main(new String[] {
+//                "--url", "jdbc:hsqldb:file:db/testdb", "--noexit"
+//        });
     }
 }
