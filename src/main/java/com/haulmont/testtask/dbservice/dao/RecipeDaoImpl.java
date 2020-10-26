@@ -10,6 +10,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,17 +60,18 @@ public class RecipeDaoImpl implements RecipeDao {
     @SuppressWarnings("unchecked")
     public Map<String, Long> getCountOfRecipesByDoctor() {
         Session currentSession = sessionFactory.getCurrentSession();
-        Query<List<String>> theQuery =
-                currentSession.createQuery(
-                        "select concat(Doctor.lastName, ' ', Doctor.firstName), count(*) as recipeAmount " +
-                                "from Recipe right join Doctor " +
-                                "group by doctorId");
 
-        // collect result to map
-        return theQuery.getResultStream()
-                .collect(Collectors.toMap(
-                        strings -> strings.get(0),
-                        strings -> Long.valueOf(strings.get(1))));
+        Map<String, Long> map = new LinkedHashMap<>();
+
+        List<?> list = currentSession.createQuery(
+                "select concat(doc.lastName, ' ', doc.firstName, ' ', doc.patronymic), count(r.recipeId) " +
+                        "from Recipe r right join r.doctor doc " +
+                        "group by doc.doctorId").getResultList();
+        for (Object obj : list) {
+            map.put(((Object[]) obj)[0].toString(),
+                    Long.valueOf((((Object[])obj)[1]).toString()));
+        }
+        return map;
     }
 
 
@@ -87,7 +90,7 @@ public class RecipeDaoImpl implements RecipeDao {
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Recipe> theQuery =
                 currentSession.createQuery("from Recipe where patientId = :patientId", Recipe.class);
-        theQuery.setParameter("patientId", patient.getId());
+        theQuery.setParameter("patientId", patient.getPatientId());
         return theQuery.getResultList();
     }
 
@@ -96,7 +99,7 @@ public class RecipeDaoImpl implements RecipeDao {
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Recipe> theQuery =
                 currentSession.createQuery("from Recipe where priorityId = :priorityId", Recipe.class);
-        theQuery.setParameter("priorityId", thePriority.getId());
+        theQuery.setParameter("priorityId", thePriority.getPriorityId());
         return theQuery.getResultList();
     }
 }
