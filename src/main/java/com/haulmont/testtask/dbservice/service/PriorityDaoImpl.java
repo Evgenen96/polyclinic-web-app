@@ -1,6 +1,6 @@
-package com.haulmont.testtask.dbservice.dao;
+package com.haulmont.testtask.dbservice.service;
 
-import com.haulmont.testtask.dbservice.dao.interfaces.PriorityDao;
+import com.haulmont.testtask.dbservice.service.interfaces.PriorityDao;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

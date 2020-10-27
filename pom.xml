@@ -103,6 +103,13 @@
             <artifactId>c3p0</artifactId>
             <version>0.9.5.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+
 
 
     </dependencies>
@@ -129,7 +136,6 @@
                     <overWriteSnapshots>false</overWriteSnapshots>
                     <overWriteIfNewer>true</overWriteIfNewer>
                     <artifactItems/>
-                    <excludeArtifactIds>junit</excludeArtifactIds>
                 </configuration>
                 <executions>
                     <execution>

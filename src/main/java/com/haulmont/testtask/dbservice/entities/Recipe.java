@@ -22,15 +22,15 @@ public class Recipe {
     @Column(name = "validity")
     private Integer validity;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name="doctorId")
     private Doctor doctor;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name="patientId")
     private Patient patient;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name="priorityId")
     private RecipePriority recipePriority;
 
@@ -45,6 +45,14 @@ public class Recipe {
         this.validity = validity;
     }
 
+    public Recipe(String description, Date creationDate, Integer validity, Doctor doctor, Patient patient, RecipePriority recipePriority) {
+        this.description = description;
+        this.creationDate = creationDate;
+        this.validity = validity;
+        this.doctor = doctor;
+        this.patient = patient;
+        this.recipePriority = recipePriority;
+    }
 
     public Long getRecipeId() {
         return recipeId;

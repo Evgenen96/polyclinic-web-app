@@ -1,6 +1,6 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.dao.interfaces.PriorityDao;
+import com.haulmont.testtask.dbservice.service.interfaces.PriorityDao;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
 import com.haulmont.testtask.dbservice.services.interfaces.PriorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class PriorityServiceImpl implements PriorityService<RecipePriority> {
+public class PriorityServiceImpl implements PriorityService {
     @Autowired
     private PriorityDao priorityDao;
 

@@ -1,6 +1,7 @@
 package com.haulmont.testtask.dbservice.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,8 @@ public class Doctor {
     @Column(name = "specialization")
     private String specialization;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}
+            ,mappedBy = "doctor")
     private List<Recipe> recipes;
 
 
@@ -85,6 +87,22 @@ public class Doctor {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public void addRecipe(Recipe theRecipe) {
+        if (recipes == null) {
+            recipes = new ArrayList<>();
+        }
+        recipes.add(theRecipe);
+        theRecipe.setDoctor(this);
     }
 
     @Override

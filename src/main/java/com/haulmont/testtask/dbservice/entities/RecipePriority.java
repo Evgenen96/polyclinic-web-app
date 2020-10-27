@@ -15,7 +15,7 @@ public class RecipePriority {
     @Column(name = "priorityName")
     private String name;
 
-    @OneToMany(mappedBy = "recipePriority")
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, mappedBy = "recipePriority")
     private List<Recipe> recipes;
 
     public RecipePriority() {
