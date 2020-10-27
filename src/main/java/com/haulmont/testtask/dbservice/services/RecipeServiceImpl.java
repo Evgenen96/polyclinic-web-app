@@ -1,6 +1,6 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.service.interfaces.RecipeDao;
+import com.haulmont.testtask.dbservice.dao.interfaces.RecipeDao;
 import com.haulmont.testtask.dbservice.entities.Patient;
 import com.haulmont.testtask.dbservice.entities.Recipe;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;

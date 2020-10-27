@@ -1,6 +1,6 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.service.interfaces.PriorityDao;
+import com.haulmont.testtask.dbservice.dao.interfaces.PriorityDao;
 import com.haulmont.testtask.dbservice.entities.RecipePriority;
 import com.haulmont.testtask.dbservice.services.interfaces.PriorityService;
 import org.springframework.beans.factory.annotation.Autowired;

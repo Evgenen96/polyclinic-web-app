@@ -1,7 +1,0 @@
-/*C4*/SET SCHEMA PUBLIC
-INSERT INTO DOCTOR VALUES(35,'TestName','TestSurname','TestPatronymic','TestSpec')
-COMMIT
-INSERT INTO PATIENT VALUES(103,'TestName','TestSurname','TestPatronymic','TestPhone')
-COMMIT
-INSERT INTO RECIPE VALUES(49,'TestDesc',103,35,'2020-10-27',111,0)
-COMMIT

@@ -1,6 +1,6 @@
-package com.haulmont.testtask.dbservice.service;
+package com.haulmont.testtask.dbservice.dao;
 
-import com.haulmont.testtask.dbservice.service.interfaces.PatientDao;
+import com.haulmont.testtask.dbservice.dao.interfaces.PatientDao;
 import com.haulmont.testtask.dbservice.entities.Patient;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

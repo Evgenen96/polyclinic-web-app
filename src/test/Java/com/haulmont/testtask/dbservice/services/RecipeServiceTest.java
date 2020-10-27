@@ -1,4 +1,4 @@
-package com.haulmont.testtask.dbservice.service;
+package com.haulmont.testtask.dbservice.dao;
 
 import com.haulmont.testtask.config.AppConfig;
 import com.haulmont.testtask.dbservice.entities.Doctor;

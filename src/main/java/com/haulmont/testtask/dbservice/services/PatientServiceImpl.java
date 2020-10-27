@@ -1,6 +1,6 @@
 package com.haulmont.testtask.dbservice.services;
 
-import com.haulmont.testtask.dbservice.service.interfaces.PatientDao;
+import com.haulmont.testtask.dbservice.dao.interfaces.PatientDao;
 import com.haulmont.testtask.dbservice.entities.Patient;
 import com.haulmont.testtask.dbservice.services.interfaces.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
