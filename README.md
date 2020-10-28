@@ -1,7 +1,7 @@
 # Polyclinic Test Task 
 
 ## Latest Release
-v1.1 - Hibernate release [Download](https://github.com/Evgenen96/polyclinic-web-app/archive/v1.1.zip)
+v1.2 - [Download](https://github.com/Evgenen96/polyclinic-web-app/archive/v1.2.zip)
 
 ## Task Description
 * Реализовать систему ввода и отображения информации о рецептах поликлиники, включающую следующие сущности и их атрибуты:
